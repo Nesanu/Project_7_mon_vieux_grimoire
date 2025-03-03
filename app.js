@@ -73,23 +73,52 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const Book = require('./models/book');
 
-const app = express();
 
-// // Proposition Copilot: 
-// mongoose.connect('mongodb+srv://nicoletaesanu:<db_password>@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster')
-//     .then(() => console.log('Connexion à MongoDB réussie !'))
-//     .catch(() => console.log('Connexion à MongoDB échouée !'));
+// // // Proposition Copilot: 
+mongoose.connect('mongodb+srv://nicoletaesanu:Galina_53@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster')
+
+    .then(() => console.log('Connexion à MongoDB réussie !'))
+    .catch(() => console.log('Connexion à MongoDB échouée !'));
+     process.on('warning', (warning) => {
+    console.warn(warning.stack);
+});
+
+
+
+ // Proposition MongoDB:    
+// const mongoose = require('mongoose');
+// const uri = "mongodb+srv://nicoletaesanu:Galina_53@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster";
+
+// const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
+
+// async function run() {
+//   try {
+//     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
+//     await mongoose.connect(uri, clientOptions);
+//     await mongoose.connection.db.admin().command({ ping: 1 });
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } finally {
+//     // Ensures that the client will close when you finish/error
+//     await mongoose.disconnect();
+//   }
+// }
+// run().catch(console.dir);
+
 // process.on('warning', (warning) => {
 //     console.warn(warning.stack);
 // });
 
 // Option cours 7 exos: 
-mongoose.connect('mongodb+srv://nicoletaesanu:galina53@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster',
-    { useNewUrlParser: true,
-      useUnifiedTopology: true })
-    .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
+// mongoose.connect('mongodb+srv://nicoletaesanu:galina53@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster',
+//     { useNewUrlParser: true,
+//       useUnifiedTopology: true })
+//     .then(() => console.log('Connexion à MongoDB réussie !'))
+//     .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
+const app = express();
 
 app.use(express.json());
 
@@ -105,60 +134,78 @@ app.use((req, res, next) => {
   
   });
 
+  // app.post('/api/book', (req, res, next) => {
+
+  //   console.log(req.body);
+  
+  //   res.status(201).json({
+  
+  //     message: 'Objet créé !'
+  
+  //   });
+  
+  // });
+
+
   app.post('/api/stuff', (req, res, next) => {
-
-    console.log(req.body);
-  
-    res.status(201).json({
-  
-      message: 'Objet créé !'
-  
+    delete req.body._id;
+    const Book = new Book({
+      ...req.body
     });
+
+    Book.save()
+      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
+      .catch(error => res.status(400).json({ error }));
+  });
+
+  app.put('/api/stuff/:id', (req, res, next) => {
+
+    Book.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
+  
+      .then(() => res.status(200).json({ message: 'Objet modifié !'}))
+  
+      .catch(error => res.status(400).json({ error }));
   
   });
 
-app.get('/api/stuff', (req, res, next) => {
-
-    const stuff = [
-  
-      {
-  
-        _id: 'oeihfzeoi',
-  
-        title: 'Mon premier objet',
-  
-        description: 'Les infos de mon premier objet',
-  
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-  
-        price: 4900,
-  
-        userId: 'qsomihvqios',
-  
-      },
-  
-      {
-  
-        _id: 'oeihfzeomoihi',
-  
-        title: 'Mon deuxième objet',
-  
-        description: 'Les infos de mon deuxième objet',
-  
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-  
-        price: 2900,
-  
-        userId: 'qsomihvqios',
-  
-      },
-  
-    ];
-  
-    res.status(200).json(stuff);
-  
+  app.delete('/api/stuff/:id', (req, res, next) => {
+    Book.deleteOne({ _id: req.params.id })
+      .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+      .catch(error => res.status(400).json({ error }));
   });
 
+
+  app.get('/api/stuff/:id', (req, res, next) => {
+    Book.findOne({ _id: req.params.id })
+      .then(book => res.status(200).json(book))
+      .catch(error => res.status(404).json({ error }));
+  });
+
+
+// app.get('/api/book', (req, res, next) => {
+
+//     const book = [
+  
+//       {
+//         _id: 'oeihfzeoi',
+//         title: 'Le Seigneur des Anneaux', 
+//       }
+  
+//     ];
+  
+//     res.status(200).json(book);
+  
+//   });
+
+app.use('/api/stuff', (req, res, next) => {
+
+  book.find()
+
+    .then(books => res.status(200).json(books))
+
+    .catch(error => res.status(400).json({ error }));
+
+});
   module.exports = app;
 
  
