@@ -1,31 +1,57 @@
-// const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-// const bookSchema = mongoose.Schema({
-//   title: { type: String, required: true },
-//   description: { type: String, required: true },
-//   imageUrl: { type: String, required: true },
-//   userId: { type: String, required: true },
-//   price: { type: Number, required: true },
-// });
+const { Schema } = mongoose;
 
-// module.exports = mongoose.model('Book', bookSchema);
-
-const mongoose = require("mongoose");
-
-const bookSchema = mongoose.Schema({
-  userId: { type: String, required: true },
-  title: { type: String, required: true },
-  author: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  year: { type: Number, required: true },
-  genre: { type: String, required: true },
+const bookSchema = new Schema({
+  userId: {
+    type: String,
+    required: false,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
+    type: String,
+    required: false,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: false,
+  },
+  genre: {
+    type: String,
+    required: false,
+  },
   ratings: [
     {
-      userId: { type: String, required: true },
-      grade: { type: Number, required: true },
+      userId: {
+        type: String,
+        required: true,
+      },
+      grade: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5,
+      },
     },
   ],
-  averageRating: { type: Number, required: true },
+  averageRating: {
+    type: Number,
+    required: false,
+  },
 });
 
-module.exports = mongoose.model("Book", bookSchema);
+bookSchema.pre("save", async function () {
+  if (this.ratings.length > 0) {
+    const sumOfRatings = this.ratings.reduce((sum, rating) => sum + rating.grade, 0);
+    this.averageRating = sumOfRatings / this.ratings.length;
+  }
+});
+
+export const Book = mongoose.model("Book", bookSchema);
