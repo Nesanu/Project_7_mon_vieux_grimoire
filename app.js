@@ -1,80 +1,15 @@
-// Code initial du fichier app.js:
-
-
-// const express = require('express');
-
-
-// const app = express();
-
-
-// module.exports = app;
-
-// Code avant ajout des middlewares:
-
-// const express = require('express');
-
-// const app = express();
-
-// app.use((req, res) => {
-//    res.json({ message: 'Votre requête a bien été reçue !' }); 
-// });
-
-// module.exports = app;
-
-// // ---------------------------------------------
-
-// // Code avec ajout des middlewares: 
-
-// const express = require('express');
-
-
-// const app = express();
-
-
-// app.use((req, res, next) => {
-
-//   console.log('Requête reçue !');
-
-//   next();
-
-// });
-
-
-// app.use((req, res, next) => {
-
-//   res.status(201);
-
-//   next();
-
-// });
-
-
-// app.use((req, res, next) => {
-
-//   res.json({ message: 'Votre requête a bien été reçue !' });
-
-//   next();
-
-// });
-
-
-// app.use((req, res, next) => {
-
-//   console.log('Réponse envoyée avec succès !');
-
-// });
-
-
-// module.exports = app;
-
-// // ---------------------------------------------
 
 // Code avec remplacement des middlewares pour le spinner du frontend: 
 
 const express = require('express');
 const mongoose = require('mongoose');
-const Book = require('./models/book');
+// const Book = require('./models/book');
+const bookRoutes = require('./routes/book');
+// const stuffRoutes = require('./routes/stuff'); code cours 1
 
+const userRoutes = require('./routes/user');
+app.use('/api/book', bookRoutesRoutes);
+app.use('/api/auth', userRoutes);
 
 // // // Proposition Copilot: 
 mongoose.connect('mongodb+srv://nicoletaesanu:Galina_53@cluster.zsfg2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster')
@@ -134,78 +69,11 @@ app.use((req, res, next) => {
   
   });
 
-  // app.post('/api/book', (req, res, next) => {
+app.use(bodyParser.json());
 
-  //   console.log(req.body);
-  
-  //   res.status(201).json({
-  
-  //     message: 'Objet créé !'
-  
-  //   });
-  
-  // });
+// app.use('/api/stuff', stuffRoutes); code cours 1
+app.use('/api/books', bookRoutes);
 
-
-  app.post('/api/stuff', (req, res, next) => {
-    delete req.body._id;
-    const Book = new Book({
-      ...req.body
-    });
-
-    Book.save()
-      .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-  app.put('/api/stuff/:id', (req, res, next) => {
-
-    Book.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-  
-      .then(() => res.status(200).json({ message: 'Objet modifié !'}))
-  
-      .catch(error => res.status(400).json({ error }));
-  
-  });
-
-  app.delete('/api/stuff/:id', (req, res, next) => {
-    Book.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-
-  app.get('/api/stuff/:id', (req, res, next) => {
-    Book.findOne({ _id: req.params.id })
-      .then(book => res.status(200).json(book))
-      .catch(error => res.status(404).json({ error }));
-  });
-
-
-// app.get('/api/book', (req, res, next) => {
-
-//     const book = [
-  
-//       {
-//         _id: 'oeihfzeoi',
-//         title: 'Le Seigneur des Anneaux', 
-//       }
-  
-//     ];
-  
-//     res.status(200).json(book);
-  
-//   });
-
-app.use('/api/stuff', (req, res, next) => {
-
-  book.find()
-
-    .then(books => res.status(200).json(books))
-
-    .catch(error => res.status(400).json({ error }));
-
-});
   module.exports = app;
 
  
