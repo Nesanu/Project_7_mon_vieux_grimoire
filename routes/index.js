@@ -8,7 +8,13 @@ import upload from "../middleware/multer-config.js";
 import sharpImages from "../middleware/sharp-config.js";
 import hasAuthor from "../middleware/hasAuthor.js";
 
-const routes = Router();
+/**
+ * @description: routes du package de express génère un gestionnaire de routes
+ * Cela définit not endpoint (nos addresses url) pour notre application
+ * cela prend donc en considération l'adress écouter sur notre serveur (via app.listen(port) en question)
+ */
+const routes = Router(); // on crée un objet routes qui contient toutes les routes de notre application
+
 
 // public routes
 routes.post("/auth/signup", signup);

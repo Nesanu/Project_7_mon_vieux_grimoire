@@ -5,9 +5,10 @@ const MIME_TYPES = {
   "image/jpeg": "jpg",
   "image/png": "png",
   "image/gif": "gif",
+  "image/webp": "webp",
 };
 
-const storage = multer.memoryStorage();
+const storage = multer.memoryStorage();// on stocke les fichiers en mémoire pour les traiter plus tard 
 
 const upload = multer({
   storage: storage,

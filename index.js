@@ -9,7 +9,7 @@ import { fileURLToPath } from "url"; // dépendance
 
 dotenv.config(); // gère et configure mes variables d'environnement 
 
-const app = express(); // mon serveur 
+const app = express(); // mon serveur // Creates an Express application. The express() function is a top-level function exported by the express module.
 const port = process.env.PORT | 4000;// sur le port 4000 par défault 
 
 const __filename = fileURLToPath(import.meta.url); // gestion des chemins/url des fichiers que j'aurai à manipuler
@@ -24,7 +24,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api", routes);
 
 
-/* Utilisation d'une méthode ASYNCHRONE, pour gérer les erreurs de connexion à la base de données
+/* Utilisation d'une méthode ASYNCHRONE, fonction anonyme, pour gérer les erreurs de connexion à la base de données
 - On lance une fonction asynchrone avec 'try', qui attend la connexion à la base de données. 
 - Si ça marche on lance le serveur, sinon on attrape l'erreur avec 'catch' et on sort du processus avec un message d'erreur 
 de connexion à la base de données et on affiche un message d'erreur dans la console et on sort du processus avec un code d'erreur.
@@ -35,7 +35,7 @@ de connexion à la base de données et on affiche un message d'erreur dans la co
     try {
       await connectDB();
       app.listen(port, () => {
-        console.log(`Server is running at http://localhost:${port}`);
+        console.log(`Server est lancé sur http://localhost:${port}`);
       });
     } catch (error) {
       console.error("Database connection failed", error);
