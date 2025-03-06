@@ -22,6 +22,8 @@ const bookSchema = new Schema({
   year: {
     type: Number,
     required: false,
+    // type: String,
+    // required: false,
   },
   genre: {
     type: String,

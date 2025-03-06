@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 /**
  * ## connectDB
- * 
  * @description Connect to the database
  * @returns {Promise<void>}
  */
