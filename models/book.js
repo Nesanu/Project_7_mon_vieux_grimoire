@@ -63,7 +63,7 @@ const bookSchema = new Schema({
 bookSchema.pre("save", async function () {
   if (this.ratings.length > 0) {
     const sumOfRatings = this.ratings.reduce((sum, rating) => sum + rating.grade, 0); // Calculate the sum of all ratings
-    this.averageRating = sumOfRatings / this.ratings.length;// Calculate the average rating
+    this.averageRating = Math.round((sumOfRatings / this.ratings.length) * 100) / 100; // Calculate the average rating and round to 2 decimal places
   }
 });
 
