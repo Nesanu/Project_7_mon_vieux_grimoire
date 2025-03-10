@@ -18,7 +18,8 @@ const sharpImages = async (req, res, next) => {
         fs.mkdirSync("./images");
       }
     });
-// si un fichier est présent dans la requête, on convertit l'image en format webp et on la compresse à 20% de sa qualité d'origine 
+// Si un fichier est présent dans la requête, on convertit l'image en format webp 
+// et on la compresse à 20% de sa qualité d'origine. 
     if (req.file) {
       const timestamp = new Date().getTime();
       const filenameWithoutExtension = path.basename(req.file.originalname, path.extname(req.file.originalname));
@@ -35,4 +36,4 @@ const sharpImages = async (req, res, next) => {
   }
 };
 
-export default sharpImages;// Ce middleware est exporté pour être utilisé dans d'autres fichiers.
+export default sharpImages;

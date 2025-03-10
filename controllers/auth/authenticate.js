@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"; // jwt pour gérée les token de notre applicati
 import { User } from "../../models/user.js";// on importe le model User pour les utilisateurs de notre application 
 
 export const signup = async (req, res) => {
-  console.log("[POST] - /auth/signup", req.body);
+  // console.log("[POST] - /auth/signup", req.body);
   bcrypt
     .hash(req.body.password, 10) // on hash le mot de passe en entrée
     .then((hash) => {
@@ -24,7 +24,7 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log("[POST] - /auth/login  =>", req.body);
+  // console.log("[POST] - /auth/login  =>", req.body);
   User.findOne({
     email: req.body.email,
   }).then((user) => {
@@ -33,7 +33,7 @@ export const login = async (req, res) => {
         error: new Error("Utilisateur non trouvé !"),
       });
     }
-    bcrypt
+    bcrypt // on compare le mot de passe entré avec celui de la base de données
       .compare(req.body.password, user.password)
       .then((valid) => {
         if (!valid) {

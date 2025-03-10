@@ -14,7 +14,6 @@ import hasAuthor from "../middleware/hasAuthor.js";
  * cela prend donc en considération l'adress écouter sur notre serveur (via app.listen(port) en question)
  */
 const routes = Router(); // on crée un objet routes qui contient toutes les routes de notre application
-
 // public routes
 routes.post("/auth/signup", signup);
 routes.post("/auth/login", login);
@@ -22,8 +21,7 @@ routes.get("/books", getBooks);
 routes.get("/books/bestrating", getBestRatingBooks);
 routes.get("/books/:id", getBook);
 
-// route avec middlesware (agent de contrôle = douanier)
-// middleware auth, hasAuthor, upload, sharpImages
+// middleware auth, hasAuthor, upload, sharpImages. Route avec middlesware (agent de contrôle = douanier)
 routes.post("/books", auth, upload.single("image"), sharpImages, createBook);
 routes.put("/books/:id", auth, hasAuthor, upload.single("image"), sharpImages, updateBook);
 routes.delete("/books/:id", auth, hasAuthor, deleteBook);

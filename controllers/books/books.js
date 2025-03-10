@@ -1,13 +1,18 @@
 import fs from "fs"; // on importe le module fs pour la gestion des fichiers
 import { Book } from "../../models/book.js"; // on importe le model Book
 
-// fonction pour récupérer tous les livres
-export const getBooks = async (req, res) => {
+
+//*Description:
+// La méthode getBooks() permet de récupérer tous les livres de la collection books de la base de données.
+// Elle utilise la méthode find() de Mongoose pour récupérer tous les documents Book.
+// @params {req} {res}
+// @returns {books}
+//*
+export const getBooks = async (req, res) => {  // fonction pour récupérer tous les livres
   const books = await Book.find();
   console.log("[GET] - /books => ", books);
   res.send(books);
 };
-
 // fonction pour récupérer un livre
 export const getBook = async (req, res) => {
   const id = req.params.id;
@@ -18,13 +23,6 @@ export const getBook = async (req, res) => {
     .catch((error) => {
       res.status(404).json({ error });
     });
-    // Optipn pour récupérer le livre avec méthode try&catch: 
-    // try { 
-    //  const response = await Book.findOne({ _id: id })
-    //  res.send(response);
-    // } catch (error) {
-    //   res.status(404).json({ error });
-    // }
 };
 // fonction pour récupérer les 3 meilleurs livres, triés par note moyenne
 export const getBestRatingBooks = async (req, res) => {

@@ -1,5 +1,4 @@
 import multer from "multer";// import de multer pour la gestion des fichiers
-
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpg",
@@ -8,7 +7,8 @@ const MIME_TYPES = {
   "image/webp": "webp",
 };
 
-const storage = multer.memoryStorage();// on stocke les fichiers en mémoire pour les traiter plus tard 
+const storage = multer.memoryStorage();
+// on stocke les fichiers en mémoire pour les traiter plus tard 
 
 const upload = multer({
   storage: storage,
@@ -21,7 +21,7 @@ const upload = multer({
   },
 });
 
-export default upload;// Ce middleware est exporté pour être utilisé dans d'autres fichiers.
+export default upload;
 
 // Commentaire:
 // Ce middleware permet de configurer multer pour gérer les fichiers envoyés par l'utilisateur.

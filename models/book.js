@@ -22,8 +22,6 @@ const bookSchema = new Schema({
   year: {
     type: Number,
     required: false,
-    // type: String,
-    // required: false,
   },
   genre: {
     type: String,
@@ -67,5 +65,6 @@ bookSchema.pre("save", async function () {
   }
 });
 
-export const Book = mongoose.model("Book", bookSchema);// on exporte le modèle Book pour l'utiliser dans d'autres fichiers. 
+export const Book = mongoose.model("Book", bookSchema);
 //Il permet de manipuler les documents de la collection books de la base de données.
+// On exporte le modèle Book pour l'utiliser dans d'autres fichiers. 
