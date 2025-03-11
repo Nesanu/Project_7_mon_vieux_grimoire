@@ -1,9 +1,4 @@
 import jwt from "jsonwebtoken";// on importe jwt pour gérer les tokens de notre application
-// import { User } from "../../models/user.js";// on importe le model User
-// import bcrypt from "bcrypt";// on importe bcrypt pour hasher le mot de passe
-// import { Book } from "../models/book.js";// on importe le model Book
-// import fs from "fs";// on importe le module fs
-// import { Book } from "../models/book.js";// on importe le model Book pour vérifier si l'utilisateur est l'auteur du livre
 
 const auth = (req, res, next) => {
   try {
